@@ -6,7 +6,7 @@ Neighborhood Map projects. Uses google maps API to show Los Angeles attractions.
 Displays current weather in L.A. from Openweather API and Wikipedia API summaries for each attractions. 
 Uses Knockout JS framework for DOM rendering and Twitter Bootstrap for styling.
 
-This app is live at http://cabelin/losangelesattractions
+This app is live at http://cabelin.com/losangelesattractions
 
 ![neighbormap](https://cloud.githubusercontent.com/assets/15892944/14626721/eeb4e30c-05a2-11e6-9fdf-5c216439bc9f.jpg)
 
