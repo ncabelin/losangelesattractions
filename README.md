@@ -8,7 +8,7 @@ Uses Knockout JS framework for DOM rendering and Twitter Bootstrap for styling.
 
 This app is live at http://cabelin.com/losangelesattractions
 
-![neighbormap](https://cloud.githubusercontent.com/assets/15892944/14626721/eeb4e30c-05a2-11e6-9fdf-5c216439bc9f.jpg)
+![neighbormap](http://cabelin.com/losangelesattractions/images/screenshot.jpg)
 
 ## Instructions
 
