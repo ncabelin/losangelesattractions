@@ -12,7 +12,8 @@ header {
     top: 10px;
     left: 20px;
     z-index: 5;
-    background-color: rgba(255,255,255,0.7);
+    background: url(../images/beach.jpg) fixed center center;
+    background-size: cover;
     border-radius: 10px;
 }
 
@@ -59,7 +60,7 @@ button {
   z-index: 100;
   position: absolute;
   top: 120px;
-  margin-left: 20px;
+  margin-left: 0;
 }
 
 footer {
@@ -132,11 +133,17 @@ tr td a:active {
 
 .btn {
   color: black;
-  margin-bottom: 5px;
+  margin-bottom: 0;
+  border-radius: 0;
 }
 
 .btn-success {
   border-radius: 100%;
+}
+
+.btn-danger {
+  background-color: #b6ced9;
+  border: none;
 }
 
 @media screen and (max-width:540px) {
