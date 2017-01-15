@@ -158,6 +158,15 @@ tr td a:active {
   border: none;
 }
 
+#info {
+  height: 500px;
+  width:250px;
+  background-color: black;
+  color: white;
+  position: fixed;
+  right: 0;
+}
+
 @media screen and (max-width:540px) {
   h1 {
     font-size: 20px;
