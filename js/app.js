@@ -79,6 +79,55 @@ function googleSuccess() {
       lat: 34.0577215,
       long: -118.2471888
     },
+    {
+      loc: 'Ronald Reagan Library',
+      url: '',
+      img: '',
+      lat: 34.2598671,
+      long: -118.8219969
+    },
+    {
+      loc: 'The Huntington Library, Art Collections, and Botanical Gardens',
+      url: '',
+      img: '',
+      lat: 34.1290452,
+      long: -118.1167129
+    },
+    {
+      loc: 'Lake Hollywood Park',
+      url: '',
+      img: '',
+      lat: 34.127035,
+      long: -118.3281227
+    },
+    {
+      loc: 'Los Angeles Zoo',
+      url: '',
+      img: '',
+      lat: 34.1483926,
+      long: -118.2862767
+    },
+    {
+      loc: 'L.A. Natural History Museum',
+      url: '',
+      img: '',
+      lat: 34.0169567,
+      long: -118.290959
+    },
+    {
+      loc: 'Getty Museum',
+      url: '',
+      img: '',
+      lat: 34.0780358,
+      long: -118.4762841
+    },
+    {
+      loc: 'Disneyland',
+      url: '',
+      img: '',
+      lat: 33.8120918,
+      long: -117.9211629
+    },
     { loc: 'Descanso Gardens',
       url: 'https://www.descansogardens.org',
       img: 'images/desc.png',
@@ -170,247 +219,8 @@ function googleSuccess() {
       map = new google.maps.Map(document.getElementById('map'), {
           center: losAngeles,
           zoom: 10,
-          styles: [
-              {
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#ebe3cd"
-                  }
-                ]
-              },
-              {
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#523735"
-                  }
-                ]
-              },
-              {
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                  {
-                    "color": "#f5f1e6"
-                  }
-                ]
-              },
-              {
-                "featureType": "administrative",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                  {
-                    "color": "#c9b2a6"
-                  }
-                ]
-              },
-              {
-                "featureType": "administrative.land_parcel",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                  {
-                    "color": "#dcd2be"
-                  }
-                ]
-              },
-              {
-                "featureType": "administrative.land_parcel",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#ae9e90"
-                  }
-                ]
-              },
-              {
-                "featureType": "landscape.natural",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#dfd2ae"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#dfd2ae"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#93817c"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi.park",
-                "elementType": "geometry.fill",
-                "stylers": [
-                  {
-                    "color": "#a5b076"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi.park",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#447530"
-                  }
-                ]
-              },
-              {
-                "featureType": "road",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#f5f1e6"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.arterial",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#fdfcf8"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.arterial",
-                "elementType": "labels",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.highway",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#f8c967"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.highway",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                  {
-                    "color": "#e9bc62"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.highway",
-                "elementType": "labels",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.highway.controlled_access",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#e98d58"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.highway.controlled_access",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                  {
-                    "color": "#db8555"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.local",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.local",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#806b63"
-                  }
-                ]
-              },
-              {
-                "featureType": "transit.line",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#dfd2ae"
-                  }
-                ]
-              },
-              {
-                "featureType": "transit.line",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#8f7d77"
-                  }
-                ]
-              },
-              {
-                "featureType": "transit.line",
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                  {
-                    "color": "#ebe3cd"
-                  }
-                ]
-              },
-              {
-                "featureType": "transit.station",
-                "elementType": "geometry",
-                "stylers": [
-                  {
-                    "color": "#dfd2ae"
-                  }
-                ]
-              },
-              {
-                "featureType": "water",
-                "elementType": "geometry.fill",
-                "stylers": [
-                  {
-                    "color": "#b9d3c2"
-                  }
-                ]
-              },
-              {
-                "featureType": "water",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                  {
-                    "color": "#92998d"
-                  }
-                ]
-              }
-            ]
+          zoomControl: true,
+          styles: mapStyle
         });
     }
 
@@ -434,15 +244,15 @@ function googleSuccess() {
 
     /* Adds a marker to the map by query */
     self.addMark = function(name, url, img, lati, long) {
-
+      var notFound = false;
       var request = {
         location: losAngeles,
         radius: '1000',
         query: name
       };
-
-      service = new google.maps.places.PlacesService(map);
-      service.textSearch(request, callback);
+      console.log(name);
+      // service = new google.maps.places.PlacesService(map);
+      // service.textSearch(request, callback);
     
 
       function callback(results, status) {
@@ -450,24 +260,31 @@ function googleSuccess() {
           for (var i = 0; i < results.length; i++) {
             addMarker(results[i]);
           }
+        } else {
+          notFound = true;
         }
+      }
+
+      function log(name) {
+        console.log(name);
       }
       
 
-      function addMarker(results) {
+      function addMarker() {
         var openMsg = '';
-        if (name !== 'Santa Monica Pier') {
-          if (results.opening_hours.open_now) {
-            openMsg = 'OPEN right now';
-          } else {
-            openMsg = 'CLOSED right now';
-          }
-        }
-        var contentArea = '<img src="' + img  + '" class="infoImg"><br><strong>' + 
-          name + '</strong></a><br>' + results.formatted_address + '<br><em>' + openMsg + '</em><br><a href="' + url +
-          '" target="_blank">visit website</a><br>';
+        // if (name !== 'Santa Monica Pier') {
+        //   if (results.opening_hours.open_now) {
+        //     openMsg = 'OPEN right now';
+        //   } else {
+        //     openMsg = 'CLOSED right now';
+        //   }
+        // }
+        // var contentArea = '<img src="' + img  + '" class="infoImg"><br><strong>' + 
+        //   name + '</strong></a><br>' + results.formatted_address + '<br><em>' + openMsg + '</em><br><a href="' + url +
+        //   '" target="_blank">visit website</a><br>';
+        var content = name;
         var infowindow = new google.maps.InfoWindow({
-          content: contentArea,
+          content: content,
           maxWidth: 200
         });
         var myLatLng = {lat: lati, lng: long};
@@ -506,6 +323,7 @@ function googleSuccess() {
         });
       } // end addMarker
 
+      addMarker();
       /* Gets wiki info displays it in hidden modal, closes other infoWindows and bounces current marker */
       self.viewIt = function(name) {
         getWiki(name);
@@ -527,7 +345,7 @@ function googleSuccess() {
         self.viewIt(this.name()); 
         self.showListButton(true); 
         self.hideListButton(false);
-        self.visibleTable(false); 
+        // self.visibleTable(false); 
         self.showButton(true);  
       };
 

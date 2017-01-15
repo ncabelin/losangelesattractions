@@ -25,7 +25,7 @@
           <div class="col-md-12 text-center center-block">
             <h1 data-bind="text: titleMsg"></h1>
             <img src="images/google.png" class="googleAttr">
-            <p class="weatherInfo" id="weather">Currently : <span data-bind="text: losAngelesWeather"></span>&deg; F in Los Angeles.<span class="openAttr"> data by <a href="http://openweathermap.org">OpenWeather</a></span></p>
+            <p class="weatherInfo pull-right" id="weather"><span data-bind="text: losAngelesWeather" class="weatherResult"></span><span class="weatherResult">&deg;</span> Fahrenheit currently in L.A. <span class="openAttr">(data by <a href="http://openweathermap.org">OpenWeather)</a></span></p>
           </div>
           <div class="navi">
             <!-- Modal -->
@@ -52,17 +52,19 @@
           </div>
       </div>
     </header>
-    <nav>
+    <section>
+      <div class="mapArea" id="map">
+      </div>
       <div class="after">
+        <button class="btn btn-danger" data-bind="click: showTable, visible: showListButton">Show List</button>
+        <button class="btn btn-danger" data-bind="click: hideTable, visible: hideListButton">Hide List</button>
+        <button class="btn btn-danger" data-bind="click: zoomOut">Zoom out</button>
+          <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" data-bind="visible: showButton">Wiki</button>
         <form data-bind="submit: filterList, visible: visibleTable">
           <input data-bind='value: searchWord, valueUpdate: "afterkeydown"' placeholder="Filter list">
           <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
         </form>
-        <button class="btn btn-danger" data-bind="click: showTable, visible: showListButton">Show List</button>
-        <button class="btn btn-danger" data-bind="click: hideTable, visible: hideListButton">Hide List</button>
-        <button class="btn btn-danger" data-bind="click: zoomOut">Zoom</button>
-          <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" data-bind="visible: showButton">Wiki</button>
         <table data-bind="visible: visibleTable">
           <thead></thead>
           <tbody data-bind="foreach: places" class="collapsible">
@@ -71,10 +73,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </nav>
-    <section>
-      <div class="mapArea" id="map">
       </div>
     </section>
     <footer>
@@ -86,7 +84,7 @@
 
   <!-- knockoutJS -->
   <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
-
+  <script src="js/mapstyle.js"></script>
   <script src="js/app.js"></script>
   <!-- googleMaps -->
   <script async src="https://maps.googleapis.com/maps/api/js?callback=googleSuccess&key=&libraries=places" onerror="googleError()"></script>
