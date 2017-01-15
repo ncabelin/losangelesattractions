@@ -45,13 +45,11 @@ function googleSuccess() {
     var attractions = [ // initial array of objects
     { loc: 'Universal CityWalk', 
       url: 'http://www.universalstudioshollywood.com/',
-      img: 'images/universal.png',
       lat: 34.1364911,
       long: -118.3553787
     },
     { loc: 'Griffith Observatory',
       url: 'http://wwww.griffithobservatory.com',
-      img: 'images/griffith.png',
       lat: 34.1184341,
       long: -118.3025875
     },
@@ -80,14 +78,14 @@ function googleSuccess() {
       long: -118.2471888
     },
     {
-      loc: 'Ronald Reagan Library',
+      loc: 'Ronald Reagan Presidential Library',
       url: '',
       img: '',
       lat: 34.2598671,
       long: -118.8219969
     },
     {
-      loc: 'The Huntington Library, Art Collections, and Botanical Gardens',
+      loc: 'Huntington Library',
       url: '',
       img: '',
       lat: 34.1290452,
@@ -115,7 +113,7 @@ function googleSuccess() {
       long: -118.290959
     },
     {
-      loc: 'Getty Museum',
+      loc: 'J. Paul Getty Museum',
       url: '',
       img: '',
       lat: 34.0780358,
@@ -187,6 +185,7 @@ function googleSuccess() {
         self.placeTitle(name);
         self.placeWiki(content);
         self.placeWikiUrl(link);
+        $('#info #content').html(content);
         clearTimeout(wikiRequestTimeout);
       }).fail(function() {
         self.placeTitle('Error');
@@ -327,9 +326,19 @@ function googleSuccess() {
       /* Gets wiki info displays it in hidden modal, closes other infoWindows and bounces current marker */
       self.viewIt = function(name) {
         getWiki(name);
+        $.ajax({
+          url: 'http://localhost:8080/' + name,
+          method: 'GET',
+          dataType: 'json'
+        }).done(function(results) {
+          console.log(results.businesses[0]);
+          $('#info #image').html('<img src="' + results.businesses[0]['image_url'] + '" class="img-responsive">');
+        }).fail(function(err) {
+          console.log(err);
+        });
         var ind = markersPlaces.indexOf(name);
         map.setCenter(markers[ind].getPosition());
-        map.setZoom(15);
+        // map.setZoom(15);
         infowindowArr.forEach(function(x) {
           x.close();
         });
