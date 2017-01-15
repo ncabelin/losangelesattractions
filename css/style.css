@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 body,
 html,
 .container-fluid {
@@ -14,7 +19,6 @@ header {
     z-index: 5;
     background: url(../images/beach.jpg) fixed center center;
     background-size: cover;
-    border-radius: 10px;
 }
 
 h1 {
@@ -27,12 +31,17 @@ h1 {
 
 .mapArea {
     height: 100%;
-    width: 100%;
+    width: 80%;
     background-color: gray;
     position: absolute;
+    right: 0;
     overflow: hidden;
     transform: translateZ(0px);
     z-index: 0;
+}
+
+form {
+  width: 100%;
 }
 
 nav ul { list-style: none; text-align: center; }
@@ -42,6 +51,7 @@ nav ul li a { text-decoration: none; }
 button {
   border-radius: 5px;
   margin-left: 5px;
+  transition: ease 0.3s;
 }
 
 .weatherInfo {
@@ -58,9 +68,13 @@ button {
 
 .after {
   z-index: 100;
-  position: absolute;
-  top: 120px;
-  margin-left: 0;
+  position: fixed;
+  width: 20%;
+  height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  bottom: 0;
+  left: 0;
 }
 
 footer {
@@ -71,17 +85,11 @@ footer {
   background-color: none;
 }
 
-input { 
-  margin-bottom: 5px;
-  border-radius: 10px;
-}
-
 td,
 input {
   background-color: white;
   border: 1px solid black;
   padding: 5px;
-  max-width: 300px;
   text-align: center;
   cursor: pointer;
 }
@@ -125,6 +133,10 @@ tr td a:active {
   background-color: white;
   color:black;
   border: none;
+}
+
+.weatherResult {
+  font-size: 40px;
 }
 
 .infoImg {
