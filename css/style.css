@@ -1,37 +1,25 @@
-* {
-  padding: 0;
-  margin: 0;
-}
-
 body,
-html,
-.container-fluid {
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        font-family: "Open Sans", sans-serif;
-  }
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
 
 header {
     padding: 0 20px;
-    top: 10px;
-    left: 20px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 5;
-    background: url(../images/beach.jpg) fixed center center;
-    background-size: cover;
+    background: rgba(255,255,255,0.7);
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
-h1 {
-  font-family: "Dancing Script", cursive;
-}
-
-.navi {
-  padding-top: 10px;
-}
-
-.mapArea {
+#map {
     height: 100%;
-    width: 80%;
+    width: 100%;
     background-color: gray;
     position: absolute;
     right: 0;
@@ -40,8 +28,78 @@ h1 {
     z-index: 0;
 }
 
+.menu {
+  z-index: 100;
+  position: fixed;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  font-family: 'Poiret One', cursive;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+#info {
+  display: none;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #af7e5d;;
+  width: 250px;
+  background: white;
+  position: fixed;
+  right: 0;
+  z-index: 9999;
+}
+
+.fadein, .fadeout {
+  opacity: 0;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+.fadein {
+  opacity: 1;
+}
+
+.business_img {
+  position: relative;
+  top: 10;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 10px;
+}
+
+#content {
+  font-size: 18px;
+}
+
+#address {
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#phone {
+  text-align: center;
+}
+
+#content small a, #close {
+  text-align: right;
+  cursor: pointer;
+}
+
+h1 {
+  font-family: "Dancing Script", cursive;
+}
+
 form {
   width: 100%;
+  margin-bottom: 5px;
 }
 
 nav ul { list-style: none; text-align: center; }
@@ -66,17 +124,6 @@ button {
   width: 100px;
 }
 
-.after {
-  z-index: 100;
-  position: fixed;
-  width: 20%;
-  height: 500px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  bottom: 0;
-  left: 0;
-}
-
 footer {
   z-index: 100;
   position: fixed;
@@ -88,7 +135,7 @@ footer {
 td,
 input {
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #af7e5d;
   padding: 5px;
   text-align: center;
   cursor: pointer;
@@ -96,7 +143,7 @@ input {
 
 td:hover,
 .places:hover {
-  background-color: black;
+  background-color: #e78e56;
   color: white;
   text-decoration: none;
 }
@@ -120,7 +167,7 @@ tr td a:visited {
 }
 
 tr td a:hover {
-  background-color: black !important;
+  background-color: #e78e56; !important;
   color:white !important;
   border: none;
 }
@@ -158,18 +205,13 @@ tr td a:active {
   border: none;
 }
 
-#info {
-  height: 500px;
-  width:250px;
-  background-color: black;
-  color: white;
-  position: fixed;
-  right: 0;
-}
-
 @media screen and (max-width:540px) {
   h1 {
     font-size: 20px;
+  }
+
+  .menu {
+    visibility: hidden;
   }
   .street {
     width: 100%;
