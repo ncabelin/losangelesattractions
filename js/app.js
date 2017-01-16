@@ -106,7 +106,7 @@ function googleSuccess() {
       long: -118.2862767
     },
     {
-      loc: 'L.A. Natural History Museum',
+      loc: 'Natural History Museum of Los Angeles County',
       url: '',
       img: '',
       lat: 34.0169567,
@@ -221,11 +221,8 @@ function googleSuccess() {
     };
 
     (function() {
-      $("#close").click(function () {
-          if ($("#info").hasClass("fadeout"))
-              $("#info").removeClass("fadeout").addClass("fadein");
-          else
-              $("#info").removeClass("fadein").addClass("fadeout");
+      $("#close").click(function() {
+        $('#info').fadeToggle('slow', 'linear');
       });
     }())
 
@@ -343,18 +340,22 @@ function googleSuccess() {
       /* Gets wiki info displays it in hidden modal, closes other infoWindows and bounces current marker */
       self.viewIt = function(name) {
         getWiki(name);
+        // Yelp API ajax
         $.ajax({
           url: 'https://la-attractions.herokuapp.com/' + name,
           method: 'GET',
           dataType: 'json'
         }).done(function(results) {
-          console.log(results.businesses[0]);
-          var phone = results.businesses[0].display_phone;
+          var r = results.businesses[0]
+          console.log(r);
+          var phone = r.display_phone;
           phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
-          var address = results.businesses[0].location.display_address.join('<br>');
+          var address = r.location.display_address.join('<br>');
           address = address ? address : '';
-          $('#info #image').html('<img src="' + results.businesses[0]['image_url'] + '" class="business_img">');
+          var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
+          $('#info #image').html('<img src="' + r['image_url'] + '" class="business_img">');
           $('#address').html(address);
+          $('#yelp').html(yelp);
           $('#phone').html(phone);
         }).fail(function(err) {
           console.log(err);
@@ -374,7 +375,7 @@ function googleSuccess() {
 
       /* clicking place name on the table list cell invokes this function */
       self.viewMarker = function() {
-        self.viewIt(this.name()); 
+        self.viewIt(this.name());
         $('#info').removeClass('fadeout').addClass('fadein');
       };
 
