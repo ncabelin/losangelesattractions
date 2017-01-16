@@ -182,9 +182,8 @@ function googleSuccess() {
       }).done(function(data) {
         var content = data[2][0];
         var link = data[3][0];
-        self.placeTitle(name);
-        self.placeWiki(content);
-        self.placeWikiUrl(link);
+        content = content ? content + '<br><small><a href="' + link + '">read more in wikipedia</a></small>' : '';
+        $('#info').css('display', 'block')
         $('#info #content').html(content);
         clearTimeout(wikiRequestTimeout);
       }).fail(function() {
@@ -212,6 +211,23 @@ function googleSuccess() {
     var service;
     var infowindow;
     var losAngeles = new google.maps.LatLng(34.052,-118.243);
+    var goldStarIcon = {
+      path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+      fillColor: 'yellow',
+      fillOpacity: 0.8,
+      scale: 0.1,
+      strokeColor: '#e38a56',
+      strokeWeight: 1
+    };
+
+    (function() {
+      $("#close").click(function () {
+          if ($("#info").hasClass("fadeout"))
+              $("#info").removeClass("fadeout").addClass("fadein");
+          else
+              $("#info").removeClass("fadein").addClass("fadeout");
+      });
+    }())
 
     /* Initializes google Map first */
     function initialize() {
@@ -281,7 +297,7 @@ function googleSuccess() {
         // var contentArea = '<img src="' + img  + '" class="infoImg"><br><strong>' + 
         //   name + '</strong></a><br>' + results.formatted_address + '<br><em>' + openMsg + '</em><br><a href="' + url +
         //   '" target="_blank">visit website</a><br>';
-        var content = name;
+        var content = '<h5>' + name + '</h5>';
         var infowindow = new google.maps.InfoWindow({
           content: content,
           maxWidth: 200
@@ -290,7 +306,8 @@ function googleSuccess() {
         var marker = new google.maps.Marker({
           map: map,
           animation: google.maps.Animation.DROP,
-          position: myLatLng
+          position: myLatLng,
+          icon: goldStarIcon
         });
 
         markers.push(marker);
@@ -327,12 +344,18 @@ function googleSuccess() {
       self.viewIt = function(name) {
         getWiki(name);
         $.ajax({
-          url: 'http://localhost:8080/' + name,
+          url: 'https://la-attractions.herokuapp.com/' + name,
           method: 'GET',
           dataType: 'json'
         }).done(function(results) {
           console.log(results.businesses[0]);
-          $('#info #image').html('<img src="' + results.businesses[0]['image_url'] + '" class="img-responsive">');
+          var phone = results.businesses[0].display_phone;
+          phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
+          var address = results.businesses[0].location.display_address.join('<br>');
+          address = address ? address : '';
+          $('#info #image').html('<img src="' + results.businesses[0]['image_url'] + '" class="business_img">');
+          $('#address').html(address);
+          $('#phone').html(phone);
         }).fail(function(err) {
           console.log(err);
         });
@@ -352,10 +375,7 @@ function googleSuccess() {
       /* clicking place name on the table list cell invokes this function */
       self.viewMarker = function() {
         self.viewIt(this.name()); 
-        self.showListButton(true); 
-        self.hideListButton(false);
-        // self.visibleTable(false); 
-        self.showButton(true);  
+        $('#info').removeClass('fadeout').addClass('fadein');
       };
 
       self.inputSearch = function() { // use value of input to search and view marker and wiki info
