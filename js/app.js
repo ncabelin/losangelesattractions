@@ -168,6 +168,30 @@ function googleSuccess() {
       });
     }
 
+    function getYelp(name) {
+      // Yelp API ajax
+      $.ajax({
+        url: 'https://la-attractions.herokuapp.com/' + name,
+        method: 'GET',
+        dataType: 'json'
+      }).done(function(results) {
+        $('.loader').addClass('hide');
+        var r = results.businesses[0]
+        console.log(r);
+        var phone = r.display_phone;
+        phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
+        var address = r.location.display_address.join('<br>');
+        address = address ? address : '';
+        var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
+        $('#info #image').html('<img src="' + r['image_url'] + '" class="business_img">');
+        $('#address').html(address);
+        $('#yelp').html(yelp);
+        $('#phone').html(phone);
+      }).fail(function(err) {
+        console.log(err);
+      });
+    }
+
     function getWeather() { // Gets current weather in Los Angeles in fahrenheit from Openweather API
       $.get('http://api.openweathermap.org/data/2.5/weather?q=Los Angeles,CA&appid=f6528aa612e42b74b4f7bcf00cd1b0b1').done(function(data){
         var temp = (1.8 * (data.main.temp - 273)) + 32; // convert Kelvin to Fahrenheit
@@ -178,6 +202,14 @@ function googleSuccess() {
       });
     }
 
+    function getHelp() {
+      $('#info').css('display', 'inline-block');
+      var helpContent = 'Click on <span class="lgScreen">the table</span><span class="smScreen">Get Info</span> to get <b>Wikipedia</b> and <b>Yelp</b> info</div>' +
+          '<hr>';
+      $('#help').html('<h2>Welcome</h2>' + helpContent);
+    }
+
+    getHelp();
     getWeather();
 
     var infowindowArr = [];
@@ -250,8 +282,7 @@ function googleSuccess() {
     };
 
     /* Adds a marker to the map by query */
-    self.addMark = function(name, url, lati, long) {
-      var notFound = false;
+    self.addMarker = function(name, url, lati, long) {
       var request = {
         location: losAngeles,
         radius: '1000',
@@ -263,131 +294,97 @@ function googleSuccess() {
           for (var i = 0; i < results.length; i++) {
             addMarker(results[i]);
           }
-        } else {
-          notFound = true;
         }
       }
-
-      function log(name) {
-        console.log(name);
-      }
       
+      var content = '<h5>' + name + '</h5>';
+      var infowindow = new google.maps.InfoWindow({
+        content: content,
+        maxWidth: 200
+      });
+      var myLatLng = {lat: lati, lng: long};
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: myLatLng,
+        icon: goldStarIcon,
+        title: content
+      });
 
-      function addMarker() {
-        var content = '<h5>' + name + '</h5>';
-        var infowindow = new google.maps.InfoWindow({
-          content: content,
-          maxWidth: 200
-        });
-        var myLatLng = {lat: lati, lng: long};
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: myLatLng,
-          icon: goldStarIcon,
-          title: content
-        });
+      markers.push(marker);
+      markersPlaces.push(name);
+      infowindowArr.push(infowindow);
 
-        markers.push(marker);
-        markersPlaces.push(name);
-        infowindowArr.push(infowindow);
-
-        marker.addListener('click', function(e) {
-          /* Closes all infowindows first */
-          var closeInfoWindow = function() {
-            self.showButton(false);
-            infowindowArr.forEach(function(x) {
-             x.close();
-            });
-          };
-          closeInfoWindow();
-          /* Clicking anywhere in the map also calls closeInfoWindow */
-          google.maps.event.addListener(map, 'click', closeInfoWindow);
-
-          // Open info window
-          infowindow.open(map, marker);
-          if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-          } else {
-            markers.forEach(function(x, y) {
-              x.setAnimation(null);
-            });
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-          }
-          var title = $(this.getTitle()),
-              titleText = title.text();
-          document.getElementById('optionVal').value = titleText;
-
-          changeBackground(titleText);
+      marker.addListener('click', function(e) {
+        /* Closes all infowindows first */
+        var closeInfoWindow = function() {
           self.showButton(false);
-        });
-      } // end addMarker
+          infowindowArr.forEach(function(x) {
+           x.close();
+          });
+        };
+        closeInfoWindow();
+        /* Clicking anywhere in the map also calls closeInfoWindow */
+        google.maps.event.addListener(map, 'click', closeInfoWindow);
 
-      addMarker();
-      /* Gets wiki info displays it in hidden modal, closes other infoWindows and bounces current marker */
-      self.viewIt = function(name) {
-        $('.info').html('');
-        $('.loader').removeClass('hide');
-        getWiki(name);
-        // Yelp API ajax
-        $.ajax({
-          url: 'https://la-attractions.herokuapp.com/' + name,
-          method: 'GET',
-          dataType: 'json'
-        }).done(function(results) {
-          $('.loader').addClass('hide');
-          var r = results.businesses[0]
-          console.log(r);
-          var phone = r.display_phone;
-          phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
-          var address = r.location.display_address.join('<br>');
-          address = address ? address : '';
-          var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
-          $('#info #image').html('<img src="' + r['image_url'] + '" class="business_img">');
-          $('#address').html(address);
-          $('#yelp').html(yelp);
-          $('#phone').html(phone);
-        }).fail(function(err) {
-          console.log(err);
-        });
-        var ind = markersPlaces.indexOf(name);
-        map.setCenter(markers[ind].getPosition());
-        // map.setZoom(15);
-        infowindowArr.forEach(function(x) {
-          x.close();
-        });
-        infowindowArr[ind].open(map, markers[ind]);
-        markers.forEach(function(x) {
-          x.setAnimation(null);
-        });
-        markers[ind].setAnimation(google.maps.Animation.BOUNCE);
-      };
+        // Open info window
+        infowindow.open(map, marker);
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          markers.forEach(function(x, y) {
+            x.setAnimation(null);
+          });
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+        var title = $(this.getTitle()),
+            titleText = title.text();
+        document.getElementById('optionVal').value = titleText;
 
-      // view place name
-      var view = function(name) {
-        self.viewIt(name);
-        $('#info').removeClass('fadeout').addClass('fadein');
-      }
-
-      /* clicking place name on the table list cell invokes this function */
-      self.viewMarker = function() {
-        var viewedName = this.name();
-        view(viewedName);
-        changeBackground(viewedName);
-      };
-
-      /* clicking place name on the options list invokes this function */
-      self.viewMarkerOptions = function() {
-        var viewedName = $('#optionVal').val()
-        view(viewedName);
-        changeBackground(viewedName);
-      }
-
-      self.inputSearch = function() { // use value of input to search and view marker and wiki info
-
-      };
-
+        changeBackground(titleText);
+        self.showButton(false);
+      });
     }; // end self.mark
+
+    /* Gets wiki,yelp info displays it in hidden modal, closes other infoWindows and bounces current marker */
+    self.viewIt = function(name) {
+      $('.info, #help').html('');
+      $('.loader').removeClass('hide');
+      getWiki(name);
+      getYelp(name);
+
+      var ind = markersPlaces.indexOf(name);
+      map.setCenter(markers[ind].getPosition());
+      // map.setZoom(15);
+      infowindowArr.forEach(function(x) {
+        x.close();
+      });
+      infowindowArr[ind].open(map, markers[ind]);
+      markers.forEach(function(x) {
+        x.setAnimation(null);
+      });
+      markers[ind].setAnimation(google.maps.Animation.BOUNCE);
+      $('#info').css('display', 'inline-block');
+    };
+
+    // view place name
+    var view = function(name) {
+      self.viewIt(name);
+    }
+
+    /* clicking place name on the table list cell invokes this function */
+    self.viewMarker = function() {
+      var viewedName = this.name();
+      view(viewedName);
+      changeBackground(viewedName);
+    };
+
+    /* clicking place name on the options list invokes this function */
+    self.viewMarkerOptions = function() {
+      var viewedName = $('#optionVal').val()
+      view(viewedName);
+      changeBackground(viewedName);
+    }
 
     /* Adds all items in attractions array to self.places ko.observable(array) 
      * by default
@@ -397,7 +394,7 @@ function googleSuccess() {
     /* Places markers on map based on current self.places ko.observable(array) */
     self.updateMarkers = function() {
       self.places().forEach(function(data, index) {
-          self.addMark(data.name(), data.url(), data.lat(), data.long());
+          self.addMarker(data.name(), data.url(), data.lat(), data.long());
       });
     };
 

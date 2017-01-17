@@ -17,6 +17,14 @@ header {
   margin-top: 10px;
 }
 
+.lgScreen {
+  display: inline-block;
+}
+
+.smScreen {
+  display: none;
+}
+
 .nav {
   margin: 0 auto;
 }
@@ -257,6 +265,14 @@ tr td a:active {
     display: inline;
   }
 
+  .lgScreen {
+    display: none;
+  }
+
+  .smScreen {
+    display: inline-block;
+  }
+
   h1 {
     font-size: 20px;
   }
@@ -269,7 +285,6 @@ tr td a:active {
   }
 
   #info {
-    height: 90%;
     width: 90%;
     margin-bottom: 10px;
     overflow-y: auto;
