@@ -267,6 +267,7 @@ tr td a:active {
     height: 90%;
     width: 90%;
     margin-bottom: 10px;
+    overflow-y: auto;
   }
 
   header {
