@@ -53,6 +53,7 @@ select {
 
 .menu {
   z-index: 100;
+  font-family: 'Open Sans Condensed', sans-serif;
   position: fixed;
   height: 100%;
   overflow-x: hidden;

@@ -204,7 +204,7 @@ function googleSuccess() {
 
     function getHelp() {
       $('#info').css('display', 'inline-block');
-      var helpContent = 'Click on <span class="lgScreen">the table</span><span class="smScreen">Get Info</span> to get <b>Wikipedia</b> and <b>Yelp</b> info</div>' +
+      var helpContent = 'Click on <span class="lgScreen">the table</span><span class="smScreen">Get Info</span> to get <strong>Wikipedia</strong> and <strong>Yelp</strong> info</div>' +
           '<hr>';
       $('#help').html('<h2>Welcome</h2>' + helpContent);
     }
@@ -340,6 +340,10 @@ function googleSuccess() {
         var title = $(this.getTitle()),
             titleText = title.text();
         document.getElementById('optionVal').value = titleText;
+        $('.info, #help').html('');
+        $('.loader').removeClass('hide');
+        getWiki(titleText);
+        getYelp(titleText);
 
         changeBackground(titleText);
         self.showButton(false);
