@@ -3,7 +3,7 @@
 /* function callback on successful load of google Maps */
 function googleSuccess() {
   /* constructor for ko observable list */
-  function Placed(name, url, img, lat, long) {
+  function Placed(name, url, lat, long) {
     var self = this;
     self.name = ko.observable(name);
     self.url = ko.observable(url);
@@ -71,37 +71,37 @@ function googleSuccess() {
     },
     {
       loc: 'Ronald Reagan Presidential Library',
-      url: '',
+      url: 'https://www.reaganfoundation.org',
       lat: 34.2598671,
       long: -118.8219969
     },
     {
       loc: 'Huntington Library',
-      url: '',
+      url: 'http://www.huntington.org/',
       lat: 34.1290452,
       long: -118.1167129
     },
     {
       loc: 'Lake Hollywood Park',
-      url: '',
+      url: 'http://www.laparks.org/park/lake-hollywood',
       lat: 34.127035,
       long: -118.3281227
     },
     {
       loc: 'Los Angeles Zoo',
-      url: '',
+      url: 'http://www.lazoo.org/',
       lat: 34.1483926,
       long: -118.2862767
     },
     {
       loc: 'Natural History Museum of Los Angeles County',
-      url: '',
+      url: 'https://www.nhm.org/site/',
       lat: 34.0169567,
       long: -118.290959
     },
     {
       loc: 'J. Paul Getty Museum',
-      url: '',
+      url: 'http://www.getty.edu/museum',
       lat: 34.0780358,
       long: -118.4762841
     },
@@ -148,7 +148,7 @@ function googleSuccess() {
 
     /* error handling for jsonp request for wikipedia */
     var wikiRequestTimeout = setTimeout(function() {
-      self.placeWiki('JSONP Error: No wikipedia summary found');
+      alert('Error getting Wikipedia results')
     }, 8000);
 
     /* gets Wikipedia entry */
@@ -170,7 +170,7 @@ function googleSuccess() {
         $('#info #content').html(content);
         clearTimeout(wikiRequestTimeout);
       }).fail(function() {
-        alert('Error');     
+        alert('Error getting Wiki results');     
       });
     }
 
@@ -265,17 +265,6 @@ function googleSuccess() {
       
 
       function addMarker() {
-        var openMsg = '';
-        // if (name !== 'Santa Monica Pier') {
-        //   if (results.opening_hours.open_now) {
-        //     openMsg = 'OPEN right now';
-        //   } else {
-        //     openMsg = 'CLOSED right now';
-        //   }
-        // }
-        // var contentArea = '<img src="' + img  + '" class="infoImg"><br><strong>' + 
-        //   name + '</strong></a><br>' + results.formatted_address + '<br><em>' + openMsg + '</em><br><a href="' + url +
-        //   '" target="_blank">visit website</a><br>';
         var content = '<h5>' + name + '</h5>';
         var infowindow = new google.maps.InfoWindow({
           content: content,
@@ -378,7 +367,7 @@ function googleSuccess() {
     /* Places markers on map based on current self.places ko.observable(array) */
     self.updateMarkers = function() {
       self.places().forEach(function(data, index) {
-          self.addMark(data.name(), data.url(), data.img(), data.lat(), data.long());
+          self.addMark(data.name(), data.url(), data.lat(), data.long());
       });
     };
 
