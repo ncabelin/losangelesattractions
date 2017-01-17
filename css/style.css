@@ -258,5 +258,6 @@ tr td a:active {
 
   header {
     bottom: 10px;
+    width: 80%;
   }
 }
