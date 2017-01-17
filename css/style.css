@@ -21,8 +21,10 @@ header {
   margin: 0 auto;
 }
 
-.options {
+select {
   display: none;
+  width: 100px;
+  text-overflow: ellipsis;
 }
 
 .btn.options {
@@ -259,6 +261,12 @@ tr td a:active {
   }
   .street {
     width: 100%;
+  }
+
+  #info {
+    height: 90%;
+    width: 90%;
+    margin-bottom: 10px;
   }
 
   header {
