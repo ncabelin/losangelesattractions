@@ -198,7 +198,7 @@ function googleSuccess() {
 
     (function() {
       $("#close").click(function() {
-        $('#info').fadeToggle('slow', 'linear');
+        $('#info').css('display', 'none');
       });
     }())
 
@@ -210,6 +210,25 @@ function googleSuccess() {
           zoomControl: true,
           styles: mapStyle
         });
+    }
+
+    // Change background color of selected name
+    function changeBackground(name) {
+      // close info
+      $('#info').css('display', 'none');
+
+      var allTableCells = document.getElementsByTagName('td');
+        for (var i = 0, max = allTableCells.length; i < max; i++) {
+            var node = allTableCells[i];
+
+            var currentText = node.childNodes[0].nodeValue;
+
+            if (currentText === name) {
+              node.style.backgroundColor = '#e78e56';
+            } else {
+              node.style.backgroundColor = 'white';
+            }
+        }
     }
 
     /* Sets the boundaries of the map based on pin locations */
@@ -265,14 +284,15 @@ function googleSuccess() {
           map: map,
           animation: google.maps.Animation.DROP,
           position: myLatLng,
-          icon: goldStarIcon
+          icon: goldStarIcon,
+          title: content
         });
 
         markers.push(marker);
         markersPlaces.push(name);
         infowindowArr.push(infowindow);
 
-        marker.addListener('click', function() {
+        marker.addListener('click', function(e) {
           /* Closes all infowindows first */
           var closeInfoWindow = function() {
             self.showButton(false);
@@ -284,6 +304,7 @@ function googleSuccess() {
           /* Clicking anywhere in the map also calls closeInfoWindow */
           google.maps.event.addListener(map, 'click', closeInfoWindow);
 
+          // Open info window
           infowindow.open(map, marker);
           if (marker.getAnimation() !== null) {
             marker.setAnimation(null);
@@ -293,6 +314,11 @@ function googleSuccess() {
             });
             marker.setAnimation(google.maps.Animation.BOUNCE);
           }
+          var title = $(this.getTitle()),
+              titleText = title.text();
+          document.getElementById('optionVal').value = titleText;
+
+          changeBackground(titleText);
           self.showButton(false);
         });
       } // end addMarker
@@ -345,12 +371,16 @@ function googleSuccess() {
 
       /* clicking place name on the table list cell invokes this function */
       self.viewMarker = function() {
-        view(this.name());
+        var viewedName = this.name();
+        view(viewedName);
+        changeBackground(viewedName);
       };
 
       /* clicking place name on the options list invokes this function */
       self.viewMarkerOptions = function() {
-        view($('#optionVal').val());
+        var viewedName = $('#optionVal').val()
+        view(viewedName);
+        changeBackground(viewedName);
       }
 
       self.inputSearch = function() { // use value of input to search and view marker and wiki info
