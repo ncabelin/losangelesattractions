@@ -240,7 +240,7 @@ tr td a:active {
   border: none;
 }
 
-@media screen and (max-width:540px) {
+@media screen and (max-width:768px) {
   .options {
     display: inline;
   }
