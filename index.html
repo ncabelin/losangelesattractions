@@ -25,6 +25,10 @@
       <h1 data-bind="text: titleMsg"></h1>
       <img src="images/google.png" class="googleAttr">
       <p class="weatherInfo" id="weather"><span data-bind="text: losAngelesWeather" class="weatherResult"></span><span class="weatherResult">&deg;</span> F&deg; now <span class="openAttr">(by <a href="http://openweathermap.org">OpenWeather)</a></span></p>
+      <select data-bind="foreach: places" class="options">
+        <option data-bind="value: name, text: name"></option>
+      </select>
+      <button class="btn btn-primary options">Go</button>
     </div>
   </header>
   <section>

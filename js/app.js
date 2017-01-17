@@ -146,11 +146,6 @@ function googleSuccess() {
       self.updateMarkers();
     };
 
-    /* error handling for jsonp request for wikipedia */
-    var wikiRequestTimeout = setTimeout(function() {
-      alert('Error getting Wikipedia results')
-    }, 8000);
-
     /* gets Wikipedia entry */
     function getWiki(name) {
       var u = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + name + '&limit=1&namespace=0&format=jsonfm';
@@ -168,7 +163,6 @@ function googleSuccess() {
         content = content ? content + '<br><small><a href="' + link + '">read more in wikipedia</a></small>' : '';
         $('#info').css('display', 'block')
         $('#info #content').html(content);
-        clearTimeout(wikiRequestTimeout);
       }).fail(function() {
         alert('Error getting Wiki results');     
       });
@@ -243,11 +237,7 @@ function googleSuccess() {
         location: losAngeles,
         radius: '1000',
         query: name
-      };
-      console.log(name);
-      // service = new google.maps.places.PlacesService(map);
-      // service.textSearch(request, callback);
-    
+      };    
 
       function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {

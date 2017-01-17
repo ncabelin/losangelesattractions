@@ -17,6 +17,10 @@ header {
   margin-top: 10px;
 }
 
+.options {
+  display: none;
+}
+
 #map {
     height: 100%;
     width: 100%;
@@ -233,6 +237,10 @@ tr td a:active {
 }
 
 @media screen and (max-width:540px) {
+  .options {
+    display: inline;
+  }
+
   h1 {
     font-size: 20px;
   }
