@@ -7,7 +7,6 @@ function googleSuccess() {
     var self = this;
     self.name = ko.observable(name);
     self.url = ko.observable(url);
-    self.img = ko.observable(img);
     self.lat = ko.observable(lat);
     self.long = ko.observable(long);
   }
@@ -17,12 +16,9 @@ function googleSuccess() {
     self.titleMsg = ko.observable('Los Angeles Attractions')
     self.losAngelesWeather = ko.observable(); // weather in fahrenheit
     self.messageBox = ko.observable(); // error message
-    self.placeTitle = ko.observable(); // modal title
-    self.placeWiki = ko.observable(); // modal body
     self.placeVal = ko.observable(); // input value
     self.places = ko.observableArray([]); // places array
     self.visibleTable = ko.observable(true);
-    self.placeWikiUrl = ko.observable();
 
     self.hideTable = function() { 
       self.showListButton(true); 
@@ -55,86 +51,73 @@ function googleSuccess() {
     },
     { loc: 'Hollywood Walk of Fame',
       url: 'http://www.walkoffame.com',
-      img: 'images/walk.png',
       lat: 34.101285,
       long: -118.3443718
     },
     { loc: 'Santa Monica Pier',
       url: 'http://www.santamonicapier.org',
-      img: 'images/pier.png',
       lat: 34.0092419,
       long: -118.4997977
     },
     { loc: 'Los Angeles County Museum of Art',
       url: 'http://www.lacma.org',
-      img: 'images/lacma.png',
       lat: 34.0639323,
       long: -118.3614233
     },
     { loc: 'Cathedral of Our Lady of the Angels',
       url: 'http://www.olacathedral.org',
-      img: 'images/cath.png',
       lat: 34.0577215,
       long: -118.2471888
     },
     {
       loc: 'Ronald Reagan Presidential Library',
       url: '',
-      img: '',
       lat: 34.2598671,
       long: -118.8219969
     },
     {
       loc: 'Huntington Library',
       url: '',
-      img: '',
       lat: 34.1290452,
       long: -118.1167129
     },
     {
       loc: 'Lake Hollywood Park',
       url: '',
-      img: '',
       lat: 34.127035,
       long: -118.3281227
     },
     {
       loc: 'Los Angeles Zoo',
       url: '',
-      img: '',
       lat: 34.1483926,
       long: -118.2862767
     },
     {
       loc: 'Natural History Museum of Los Angeles County',
       url: '',
-      img: '',
       lat: 34.0169567,
       long: -118.290959
     },
     {
       loc: 'J. Paul Getty Museum',
       url: '',
-      img: '',
       lat: 34.0780358,
       long: -118.4762841
     },
     {
       loc: 'Disneyland',
-      url: '',
-      img: '',
+      url: 'https://disneyland.disney.go.com/',
       lat: 33.8120918,
       long: -117.9211629
     },
     { loc: 'Descanso Gardens',
       url: 'https://www.descansogardens.org',
-      img: 'images/desc.png',
       lat: 34.2012661,
       long: -118.2119937
     },
     { loc: 'Madame Tussauds Hollywood',
       url: 'https://www2.madametussauds.com/hollywood/en',
-      img: 'images/madame.png',
       lat: 34.101712,
       long: -118.343729
     }];
@@ -142,7 +125,7 @@ function googleSuccess() {
     /* generates initial ko.observable array places */
     function placeDestinations() {
       for (var i = 0; i < attractions.length ; i++ ) {
-        self.places.push(new Placed(attractions[i].loc, attractions[i].url, attractions[i].img, attractions[i].lat, attractions[i].long));
+        self.places.push(new Placed(attractions[i].loc, attractions[i].url, attractions[i].lat, attractions[i].long));
       }  
     }
 
@@ -154,7 +137,7 @@ function googleSuccess() {
         var str = data.loc.toLowerCase();
         var test = searchReg.test(str);
         if (test) {
-          self.places.push(new Placed(data.loc, data.url, data.img, data.lat, data.long));
+          self.places.push(new Placed(data.loc, data.url, data.lat, data.long));
         }
       });
       markers.forEach(function(placedMarker) {
@@ -165,7 +148,6 @@ function googleSuccess() {
 
     /* error handling for jsonp request for wikipedia */
     var wikiRequestTimeout = setTimeout(function() {
-      self.placeTitle('Error');
       self.placeWiki('JSONP Error: No wikipedia summary found');
     }, 8000);
 
@@ -180,6 +162,7 @@ function googleSuccess() {
             format: 'json'
         },
       }).done(function(data) {
+        console.log(data);
         var content = data[2][0];
         var link = data[3][0];
         content = content ? content + '<br><small><a href="' + link + '">read more in wikipedia</a></small>' : '';
@@ -187,8 +170,7 @@ function googleSuccess() {
         $('#info #content').html(content);
         clearTimeout(wikiRequestTimeout);
       }).fail(function() {
-        self.placeTitle('Error');
-        self.placeWiki('Error: No wikipedia summary found');        
+        alert('Error');     
       });
     }
 
@@ -255,7 +237,7 @@ function googleSuccess() {
     };
 
     /* Adds a marker to the map by query */
-    self.addMark = function(name, url, img, lati, long) {
+    self.addMark = function(name, url, lati, long) {
       var notFound = false;
       var request = {
         location: losAngeles,
