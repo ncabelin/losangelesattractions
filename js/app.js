@@ -339,6 +339,8 @@ function googleSuccess() {
       addMarker();
       /* Gets wiki info displays it in hidden modal, closes other infoWindows and bounces current marker */
       self.viewIt = function(name) {
+        $('.info').html('');
+        $('.loader').removeClass('hide');
         getWiki(name);
         // Yelp API ajax
         $.ajax({
@@ -346,6 +348,7 @@ function googleSuccess() {
           method: 'GET',
           dataType: 'json'
         }).done(function(results) {
+          $('.loader').addClass('hide');
           var r = results.businesses[0]
           console.log(r);
           var phone = r.display_phone;
