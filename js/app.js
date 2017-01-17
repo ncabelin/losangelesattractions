@@ -204,9 +204,10 @@ function googleSuccess() {
 
     function getHelp() {
       $('#info').css('display', 'inline-block');
-      var helpContent = 'Click on <span class="lgScreen">the table</span><span class="smScreen">Get Info</span> to get <strong>Wikipedia</strong> and <strong>Yelp</strong> info</div>' +
+      var helpContent = '<div class="smScreen">These are the top places to go to, click on <strong>Get Info</strong> to get more info</div>' +
+          '<div class="lgScreen">These are the top attractions, click on them to get more info</div>' +
           '<hr>';
-      $('#help').html('<h2>Welcome</h2>' + helpContent);
+      $('#help').html('<h2>Welcome to L.A.</h2>' + helpContent);
     }
 
     getHelp();
@@ -340,10 +341,13 @@ function googleSuccess() {
         var title = $(this.getTitle()),
             titleText = title.text();
         document.getElementById('optionVal').value = titleText;
-        $('.info, #help').html('');
-        $('.loader').removeClass('hide');
-        getWiki(titleText);
-        getYelp(titleText);
+
+        if ($(window).width() > 768) {
+          $('.info, #help').html('');
+          $('.loader').removeClass('hide');
+          getWiki(titleText);
+          getYelp(titleText);
+        }
 
         changeBackground(titleText);
         self.showButton(false);
