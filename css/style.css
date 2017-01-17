@@ -286,6 +286,7 @@ tr td a:active {
 
   #info {
     width: 90%;
+    height: 50%;
     margin-bottom: 10px;
     overflow-y: auto;
   }
