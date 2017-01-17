@@ -21,14 +21,13 @@
 </head>
 <body>
   <header>
-    <div class="">
+    <div class="nav">
       <h1 data-bind="text: titleMsg"></h1>
-      <img src="images/google.png" class="googleAttr">
-      <p class="weatherInfo" id="weather"><span data-bind="text: losAngelesWeather" class="weatherResult"></span><span class="weatherResult">&deg;</span> F&deg; now <span class="openAttr">(by <a href="http://openweathermap.org">OpenWeather)</a></span></p>
       <select data-bind="foreach: places" class="options" id="optionVal">
         <option data-bind="value: name, text: name"></option>
       </select>
       <button class="btn btn-primary options" data-bind="click: $root.viewMarkerOptions">Get Info</button>
+      <span class="weatherInfo" id="weather"><span data-bind="text: losAngelesWeather" class="weatherResult"></span><span class="weatherResult">&deg;</span> F&deg; now <span class="openAttr">(by <a href="http://openweathermap.org">OpenWeather)</a></span></span>
     </div>
   </header>
   <section>
@@ -73,3 +72,4 @@
   <script async src="https://maps.googleapis.com/maps/api/js?callback=googleSuccess&key=AIzaSyDFvAw6DhNI0fpmlFHgFBSevki9Om9Nu5U&libraries=places" onerror="googleError()"></script>
 </body>
 </html>
+<!-- AIzaSyDFvAw6DhNI0fpmlFHgFBSevki9Om9Nu5U -->
