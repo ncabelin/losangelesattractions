@@ -337,11 +337,21 @@ function googleSuccess() {
         markers[ind].setAnimation(google.maps.Animation.BOUNCE);
       };
 
+      // view place name
+      var view = function(name) {
+        self.viewIt(name);
+        $('#info').removeClass('fadeout').addClass('fadein');
+      }
+
       /* clicking place name on the table list cell invokes this function */
       self.viewMarker = function() {
-        self.viewIt(this.name());
-        $('#info').removeClass('fadeout').addClass('fadein');
+        view(this.name());
       };
+
+      /* clicking place name on the options list invokes this function */
+      self.viewMarkerOptions = function() {
+        view($('#optionVal').val());
+      }
 
       self.inputSearch = function() { // use value of input to search and view marker and wiki info
 

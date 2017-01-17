@@ -21,6 +21,10 @@ header {
   display: none;
 }
 
+.btn.options {
+  margin: 10px;
+}
+
 #map {
     height: 100%;
     width: 100%;
