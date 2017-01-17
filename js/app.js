@@ -203,8 +203,8 @@ function googleSuccess() {
     }
 
     function getHelp() {
-      $('#info').css('display', 'inline-block');
-      var helpContent = '<div class="smScreen">These are the top places to go to, click on <strong>Get Info</strong> to get more info</div>' +
+      $('#info, .weatherInfo').css('display', 'inline-block');
+      var helpContent = '<div class="smScreen">These are the top places to go to, click on <strong>Get Info</strong></div>' +
           '<div class="lgScreen">These are the top attractions, click on them to get more info</div>' +
           '<hr>';
       $('#help').html('<h2>Welcome to L.A.</h2>' + helpContent);
@@ -231,7 +231,7 @@ function googleSuccess() {
 
     (function() {
       $("#close").click(function() {
-        $('#info').css('display', 'none');
+        $('#info, .weatherInfo').css('display', 'none');
       });
     }())
 
@@ -341,6 +341,7 @@ function googleSuccess() {
         var title = $(this.getTitle()),
             titleText = title.text();
         document.getElementById('optionVal').value = titleText;
+        $('.weatherInfo').css('display', 'none');
 
         if ($(window).width() > 768) {
           $('.info, #help').html('');
@@ -373,6 +374,7 @@ function googleSuccess() {
       });
       markers[ind].setAnimation(google.maps.Animation.BOUNCE);
       $('#info').css('display', 'inline-block');
+      $('.weatherInfo').css('display', 'none');
     };
 
     // view place name
