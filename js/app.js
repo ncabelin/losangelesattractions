@@ -154,8 +154,7 @@ function googleSuccess() {
     // Shows Instructions and Welcome screen
     function getHelp() {
       $('#info, .weatherInfo').css('display', 'inline-block');
-      var helpContent = '<div class="smScreen">These are the top places to go to, click on <strong>Get Info</strong></div>' +
-          '<div class="lgScreen">These are the top attractions, click on them to get more info</div>' +
+      var helpContent = 'These are the top attractions, click on them to get more info</div>' +
           '<hr>';
       $('#help').html('<h2>Welcome to L.A.</h2>' + helpContent);
     }
@@ -194,7 +193,7 @@ function googleSuccess() {
         });
     }
 
-    // Change background color of selected name
+    // Change table background color of selected name
     function changeBackground(name) {
       // close info
       var allTableCells = document.getElementsByTagName('td');
@@ -305,18 +304,31 @@ function googleSuccess() {
       getYelp(name);
       changeBackground(name);
 
+      // get url
+      var url;
+      attractions.forEach(function(e) {
+        if (e.loc === name) {
+          return url = e.url;
+        }
+      });
+      $('#url').css('display', 'inline').attr('href', url);
+
       var ind = markersPlaces.indexOf(name);
+      // center map
       map.setCenter(markers[ind].getPosition());
-      // map.setZoom(15);
+      // close all other info windows
       infowindowArr.forEach(function(x) {
         x.close();
       });
+      // open clicked marker's info window
       infowindowArr[ind].open(map, markers[ind]);
+      // turn off all other bounce animations
       markers.forEach(function(x) {
         x.setAnimation(null);
       });
+      // bounce animation
       markers[ind].setAnimation(google.maps.Animation.BOUNCE);
-      $('#info').css('display', 'inline-block');
+      $('#info').css('display', 'inline-block').css('visibility', 'visible');
       $('.weatherInfo').css('display', 'none');
     };
 

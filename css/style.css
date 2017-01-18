@@ -21,7 +21,7 @@ header {
   display: inline-block;
 }
 
-.smScreen, .info {
+.smScreen, .info, #url {
   display: none;
 }
 
@@ -31,7 +31,7 @@ header {
 
 select {
   display: none;
-  width: 100px;
+  width: 200px;
   text-overflow: ellipsis;
 }
 
@@ -267,7 +267,7 @@ tr td a:active {
     display: inline;
   }
 
-  .lgScreen {
+  #help {
     display: none;
   }
 
@@ -291,6 +291,7 @@ tr td a:active {
     height: 50%;
     margin-bottom: 10px;
     overflow-y: auto;
+    visibility: hidden;
   }
 
   header {
