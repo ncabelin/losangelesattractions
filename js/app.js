@@ -105,11 +105,13 @@ function googleSuccess() {
       var phone = r.display_phone;
       phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
       var address = r.location.display_address.join('<br>');
-      address = address ? address : '';
+      var gmapsAddress = r.location.display_address.join('+');
+      var gmaps = '<a href="http://maps.google.com/?daddr=' + gmapsAddress + '" target="_blank">';
+      address = address ? (gmaps + address + '</a>') : '';
       var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
       $('#image').html('<img src="' + r['image_url'] + '" class="business_img">').css('display','block');
       $('#address').html(address).css('display', 'inline-block');
-      $('#yelp').html(yelp);
+      $('#yelp').html(yelp).css('display', 'inline-block');
       $('#phone').html(phone).css('display', 'block');
     }
 
