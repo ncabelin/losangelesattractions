@@ -18,109 +18,8 @@ function googleSuccess() {
     self.messageBox = ko.observable(); // error message
     self.placeVal = ko.observable(); // input value
     self.places = ko.observableArray([]); // places array
-    self.visibleTable = ko.observable(true);
-
-    self.hideTable = function() { 
-      self.showListButton(true); 
-      self.hideListButton(false);
-      self.visibleTable(false);
-    };
-    
-    self.showTable = function() {
-      self.showButton(false);
-      self.showListButton(false); 
-      self.hideListButton(true);
-      self.visibleTable(true);      
-    };
-    
     self.searchWord = ko.observable();
     self.showButton = ko.observable(false);
-    self.showListButton = ko.observable(false);
-    self.hideListButton = ko.observable(true);
-
-    var attractions = [ // initial array of objects
-    { loc: 'Universal CityWalk', 
-      url: 'http://www.universalstudioshollywood.com/',
-      lat: 34.1364911,
-      long: -118.3553787
-    },
-    { loc: 'Griffith Observatory',
-      url: 'http://wwww.griffithobservatory.com',
-      lat: 34.1184341,
-      long: -118.3025875
-    },
-    { loc: 'Hollywood Walk of Fame',
-      url: 'http://www.walkoffame.com',
-      lat: 34.101285,
-      long: -118.3443718
-    },
-    { loc: 'Santa Monica Pier',
-      url: 'http://www.santamonicapier.org',
-      lat: 34.0092419,
-      long: -118.4997977
-    },
-    { loc: 'Los Angeles County Museum of Art',
-      url: 'http://www.lacma.org',
-      lat: 34.0639323,
-      long: -118.3614233
-    },
-    { loc: 'Cathedral of Our Lady of the Angels',
-      url: 'http://www.olacathedral.org',
-      lat: 34.0577215,
-      long: -118.2471888
-    },
-    {
-      loc: 'Ronald Reagan Presidential Library',
-      url: 'https://www.reaganfoundation.org',
-      lat: 34.2598671,
-      long: -118.8219969
-    },
-    {
-      loc: 'Huntington Library',
-      url: 'http://www.huntington.org/',
-      lat: 34.1290452,
-      long: -118.1167129
-    },
-    {
-      loc: 'Lake Hollywood Park',
-      url: 'http://www.laparks.org/park/lake-hollywood',
-      lat: 34.127035,
-      long: -118.3281227
-    },
-    {
-      loc: 'Los Angeles Zoo',
-      url: 'http://www.lazoo.org/',
-      lat: 34.1483926,
-      long: -118.2862767
-    },
-    {
-      loc: 'Natural History Museum of Los Angeles County',
-      url: 'https://www.nhm.org/site/',
-      lat: 34.0169567,
-      long: -118.290959
-    },
-    {
-      loc: 'J. Paul Getty Museum',
-      url: 'http://www.getty.edu/museum',
-      lat: 34.0780358,
-      long: -118.4762841
-    },
-    {
-      loc: 'Disneyland',
-      url: 'https://disneyland.disney.go.com/',
-      lat: 33.8120918,
-      long: -117.9211629
-    },
-    { loc: 'Descanso Gardens',
-      url: 'https://www.descansogardens.org',
-      lat: 34.2012661,
-      long: -118.2119937
-    },
-    { loc: 'Madame Tussauds Hollywood',
-      url: 'https://www2.madametussauds.com/hollywood/en',
-      lat: 34.101712,
-      long: -118.343729
-    }];
 
     /* generates initial ko.observable array places */
     function placeDestinations() {
@@ -146,8 +45,35 @@ function googleSuccess() {
       self.updateMarkers();
     };
 
+    function checkWikiExistence(name, arr) {
+      return arr.some(function(el) {
+        return el[0] === name;
+      });
+    }
+
+    function displayWiki(data) {
+      console.log(data);
+      var content = data[2][0];
+      var link = data[3][0];
+      content = content ? content + '<br><small><a href="' + link + '">read more in wikipedia</a></small>' : '';
+      $('.wiki').css('display', 'block')
+      $('#info #content').html(content);
+    }
+
     /* gets Wikipedia entry */
+    var wikiData = [];
     function getWiki(name) {
+      var wikiCheck = checkWikiExistence(name, wikiData);
+      if (wikiCheck) {
+        var data;
+        wikiData.forEach(function(e) {
+          if (e[0] === name) {
+            data = e; 
+          }
+        });
+        displayWiki(data);
+        return
+      }
       var u = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + name + '&limit=1&namespace=0&format=jsonfm';
       $.ajax({
         url: u,
@@ -157,41 +83,64 @@ function googleSuccess() {
             format: 'json'
         },
       }).done(function(data) {
-        console.log(data);
-        var content = data[2][0];
-        var link = data[3][0];
-        content = content ? content + '<br><small><a href="' + link + '">read more in wikipedia</a></small>' : '';
-        $('#info').css('display', 'block')
-        $('#info #content').html(content);
+        displayWiki(data);
+        wikiData.push(data);
       }).fail(function() {
         alert('Error getting Wiki results');     
       });
     }
 
+    // Gets Yelp API from a heroku app
+    var yelpData = [];
+    function checkYelpExistence(name, arr) {
+      return arr.some(function(el) {
+        return el.businesses[0].name === name;
+      });
+    }
+
+    function displayYelp(results) {
+      $('.loader').addClass('hide');
+      var r = results.businesses[0]
+      console.log(r);
+      var phone = r.display_phone;
+      phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
+      var address = r.location.display_address.join('<br>');
+      address = address ? address : '';
+      var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
+      $('#image').html('<img src="' + r['image_url'] + '" class="business_img">').css('display','block');
+      $('#address').html(address).css('display', 'inline-block');
+      $('#yelp').html(yelp);
+      $('#phone').html(phone).css('display', 'block');
+    }
+
     function getYelp(name) {
       // Yelp API ajax
+      var yelpCheck = checkYelpExistence(name, yelpData);
+      if (yelpCheck) {
+        var data;
+        yelpData.forEach(function(e) {
+          if (e.businesses[0].name === name) {
+            data = e;
+          }
+        });
+        displayYelp(data);
+        return;
+      }
       $.ajax({
         url: 'https://la-attractions.herokuapp.com/' + name,
         method: 'GET',
         dataType: 'json'
       }).done(function(results) {
-        $('.loader').addClass('hide');
-        var r = results.businesses[0]
-        console.log(r);
-        var phone = r.display_phone;
-        phone = phone ? ('<a href="tel:' + phone + '">' + phone + '</a>') : '';
-        var address = r.location.display_address.join('<br>');
-        address = address ? address : '';
-        var yelp = '<img src="' + r.rating_img_url + '"><br><a href="' + r.url + '">read Yelp reviews</a>';
-        $('#info #image').html('<img src="' + r['image_url'] + '" class="business_img">');
-        $('#address').html(address);
-        $('#yelp').html(yelp);
-        $('#phone').html(phone);
+        displayYelp(results)
+        yelpData.push(results);
+        console.log('yelp')
+        console.log(yelpData);
       }).fail(function(err) {
         console.log(err);
       });
     }
 
+    // Gets Openweather API results
     function getWeather() { // Gets current weather in Los Angeles in fahrenheit from Openweather API
       $.get('http://api.openweathermap.org/data/2.5/weather?q=Los Angeles,CA&appid=f6528aa612e42b74b4f7bcf00cd1b0b1').done(function(data){
         var temp = (1.8 * (data.main.temp - 273)) + 32; // convert Kelvin to Fahrenheit
@@ -202,6 +151,7 @@ function googleSuccess() {
       });
     }
 
+    // Shows Instructions and Welcome screen
     function getHelp() {
       $('#info, .weatherInfo').css('display', 'inline-block');
       var helpContent = '<div class="smScreen">These are the top places to go to, click on <strong>Get Info</strong></div>' +
@@ -229,11 +179,10 @@ function googleSuccess() {
       strokeWeight: 1
     };
 
-    (function() {
-      $("#close").click(function() {
-        $('#info, .weatherInfo').css('display', 'none');
-      });
-    }())
+    // Close button on info event handler
+    $("#close").click(function() {
+      $('#info, .weatherInfo').css('display', 'none');
+    });
 
     /* Initializes google Map first */
     function initialize() {
@@ -248,8 +197,6 @@ function googleSuccess() {
     // Change background color of selected name
     function changeBackground(name) {
       // close info
-      $('#info').css('display', 'none');
-
       var allTableCells = document.getElementsByTagName('td');
         for (var i = 0, max = allTableCells.length; i < max; i++) {
             var node = allTableCells[i];
@@ -316,6 +263,7 @@ function googleSuccess() {
       markersPlaces.push(name);
       infowindowArr.push(infowindow);
 
+      // add Event Listener click
       marker.addListener('click', function(e) {
         /* Closes all infowindows first */
         var closeInfoWindow = function() {
@@ -341,26 +289,21 @@ function googleSuccess() {
         var title = $(this.getTitle()),
             titleText = title.text();
         document.getElementById('optionVal').value = titleText;
-        $('.weatherInfo').css('display', 'none');
 
         if ($(window).width() > 768) {
-          $('.info, #help').html('');
-          $('.loader').removeClass('hide');
-          getWiki(titleText);
-          getYelp(titleText);
+          view(titleText);          
         }
-
-        changeBackground(titleText);
-        self.showButton(false);
       });
     }; // end self.mark
 
     /* Gets wiki,yelp info displays it in hidden modal, closes other infoWindows and bounces current marker */
     self.viewIt = function(name) {
-      $('.info, #help').html('');
+      $('.weatherInfo, #help').css('display', 'none');
+      $('.yelp, .wiki').css('display','none');
       $('.loader').removeClass('hide');
       getWiki(name);
       getYelp(name);
+      changeBackground(name);
 
       var ind = markersPlaces.indexOf(name);
       map.setCenter(markers[ind].getPosition());
@@ -386,14 +329,12 @@ function googleSuccess() {
     self.viewMarker = function() {
       var viewedName = this.name();
       view(viewedName);
-      changeBackground(viewedName);
     };
 
     /* clicking place name on the options list invokes this function */
     self.viewMarkerOptions = function() {
       var viewedName = $('#optionVal').val()
       view(viewedName);
-      changeBackground(viewedName);
     }
 
     /* Adds all items in attractions array to self.places ko.observable(array) 
@@ -401,15 +342,10 @@ function googleSuccess() {
     */
     placeDestinations();
 
-    /* Places markers on map based on current self.places ko.observable(array) */
-    self.updateMarkers = function() {
-      self.places().forEach(function(data, index) {
-          self.addMarker(data.name(), data.url(), data.lat(), data.long());
-      });
-    };
-
-    /* by default place all markers */
-    self.updateMarkers();
+    // add Google markers
+    self.places().forEach(function(data, index) {
+        self.addMarker(data.name(), data.url(), data.lat(), data.long());
+    });
   }
 
   ko.applyBindings(new appViewModel()); // start app

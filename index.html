@@ -32,11 +32,11 @@
     <div class="mapArea" id="map">
     </div>
     <div class="menu">
-      <form data-bind="submit: filterList, visible: visibleTable">
+      <form data-bind="submit: filterList">
         <input data-bind='value: searchWord, valueUpdate: "afterkeydown"' placeholder="Filter list">
         <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
       </form>
-      <table data-bind="visible: visibleTable">
+      <table>
         <thead></thead>
         <tbody data-bind="foreach: places" class="collapsible">
           <tr>
@@ -48,12 +48,12 @@
     <div id="info">
       <div id="close"><i class="fa fa-times" aria-hidden="true"></i></div>
       <div class="loader hide"></div>
-      <div id="image" class="info"></div>
-      <div id="address" class="info"></div>
-      <div id="phone" class="info"></div>
-      <div id="yelp" class="info"></div><br>
+      <div id="image" class="yelp"></div>
+      <div id="address" class="yelp"></div>
+      <div id="phone" class="yelp"></div>
+      <div id="yelp" class="yelp"></div><br>
       <hr>
-      <div id="content" class="info"></div>
+      <div id="content" class="wiki"></div>
       <div class="weatherInfo" id="weather"><span data-bind="text: losAngelesWeather" class="weatherResult"></span><span class="weatherResult">&deg;</span> F&deg; now <span class="openAttr">(by <a href="http://openweathermap.org">OpenWeather)</a></span></div>
       <div id="help"></div>
     </div>
@@ -62,14 +62,14 @@
   </footer>
     <!-- jquery, and bootstrap js -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
   <!-- knockoutJS -->
   <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
   <script src="js/mapstyle.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/app.js"></script>
   <!-- googleMaps -->
-  <script async src="https://maps.googleapis.com/maps/api/js?callback=googleSuccess&key=AIzaSyDFvAw6DhNI0fpmlFHgFBSevki9Om9Nu5U&libraries=places" onerror="googleError()"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?callback=googleSuccess&key=&libraries=places" onerror="googleError()"></script>
 </body>
 </html>
 <!-- AIzaSyDFvAw6DhNI0fpmlFHgFBSevki9Om9Nu5U -->
