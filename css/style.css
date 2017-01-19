@@ -25,6 +25,10 @@ header {
   display: none;
 }
 
+#distance {
+  text-align: center;
+}
+
 .nav {
   margin: 0 auto;
 }

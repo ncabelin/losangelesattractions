@@ -142,6 +142,19 @@ function googleSuccess() {
       });
     }
 
+    // gets distance in miles between 2 
+    function getDistance(lat1, lon1, lat2, lon2) {
+      var radlat1 = Math.PI * lat1/180;
+      var radlat2 = Math.PI * lat2/180;
+      var theta = lon1-lon2;
+      var radtheta = Math.PI * theta/180;
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist);
+      dist = dist * 180/Math.PI;
+      dist = dist * 60 * 1.1515;
+      return dist;
+    };
+
     // Gets Openweather API results
     function getWeather() { // Gets current weather in Los Angeles in fahrenheit from Openweather API
       $.get('http://api.openweathermap.org/data/2.5/weather?q=Los Angeles,CA&appid=f6528aa612e42b74b4f7bcf00cd1b0b1').done(function(data){
@@ -223,6 +236,29 @@ function googleSuccess() {
     });
 
     initialize();
+
+    self.myMarker = ko.observable();
+    self.viewGPS = function() {
+      if (self.myMarker()) {
+        return
+      }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lat = position.coords.latitude,
+              long = position.coords.longitude;
+          var latlng = {lat: lat, lng: long};
+          // create marker
+          self.myMarker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            position: latlng,
+            title: 'My position'
+          });
+
+          map.setCenter(self.myMarker.getPosition());
+        });
+      }
+    };
 
     /* Zoom out button */
     self.zoomOut = function() {
@@ -307,13 +343,25 @@ function googleSuccess() {
       changeBackground(name);
 
       // get url
-      var url;
+      var url, lat, long;
       attractions.forEach(function(e) {
         if (e.loc === name) {
-          return url = e.url;
+          url = e.url;
+          lat = e.lat;
+          long = e.long;
+          return
         }
       });
+
+      // get distance between your location and attraction
+      if (self.myMarker) {
+        var dist = getDistance(lat, long, self.myMarker.getPosition().lat(), self.myMarker.getPosition().lng());
+        $('#distance').html(Math.round(dist) + ' mi.').css('display', 'inline');
+      }
+
       $('#url').css('display', 'inline').attr('href', url);
+      $('#info').css('display', 'inline-block').css('visibility', 'visible');
+      $('.weatherInfo').css('display', 'none');
 
       var ind = markersPlaces.indexOf(name);
       // center map
@@ -330,8 +378,6 @@ function googleSuccess() {
       });
       // bounce animation
       markers[ind].setAnimation(google.maps.Animation.BOUNCE);
-      $('#info').css('display', 'inline-block').css('visibility', 'visible');
-      $('.weatherInfo').css('display', 'none');
     };
 
     // view place name
