@@ -32,10 +32,10 @@ NOTE: The backend was used to be able to access Oauth 2.0 with the Yelp API, and
 
 ## Instructions
 
-1. Open web app
-2. Type attraction place in the filter input field and click the search button or hit enter on your keyboard to filter.
-3. Click on attraction name in the list to zoom in and view the attraction in the map and click Wiki button for Wikipedia info.
-4. Click on the marker infowindow's link to visit the attraction's website.
+1. Type attraction place in the filter input field and click the search button or hit enter on your keyboard to filter.
+2. Click on attraction name in the list to view the attraction in the map for Wikipedia, Yelp info.
+3. Click on the marker infowindow's link to visit the wikipedia, yelp, and attraction's website.
+4. Determine miles from your current position by clicking 'Get Position'.
 
 ## Contributors
 
