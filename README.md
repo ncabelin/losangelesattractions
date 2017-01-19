@@ -28,7 +28,7 @@ This app can show you these attractions and more.
 NOTE: The backend was used to be able to access Oauth 2.0 with the Yelp API, and serve JSON from the Openweather API which does not have https
 			Git repo of this is in : https://github.com/ncabelin/la-backend
 
-![neighbormap](http://cabelin.com/losangelesattractions/images/screenshot.jpg)
+![neighbormap](http://cabelin.com/losangelesattractions/images/screenshot2.jpg)
 
 ## Instructions
 
