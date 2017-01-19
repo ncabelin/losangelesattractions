@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Los Angeles Attractions Map</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+    <!-- google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <!-- bootstrap and font-awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <h1 data-bind="text: titleMsg"></h1>
+      <select data-bind="foreach: places" class="options" id="optionVal">
+        <option data-bind="value: name, text: name"></option>
+      </select>
+      <button class="btn btn-primary options" data-bind="click: $root.viewMarkerOptions">Get Info</button>
+      <button class="btn btn-primary" data-bind="click: $root.viewGPS">My Position</button>
+    </div>
+  </header>
+  <section>
+    <div class="mapArea" id="map">
+    </div>
+    <div class="menu">
+      <form data-bind="submit: filterList">
+        <input data-bind='value: searchWord, valueUpdate: "afterkeydown"' placeholder="Filter list">
+        <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+      </form>
+      <table>
+        <thead></thead>
+        <tbody data-bind="foreach: places" class="collapsible">
+          <tr>
+            <td data-bind="click: $root.viewMarker, text: name"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="info">
+      <div id="close"><i class="fa fa-times" aria-hidden="true"></i></div>
+      <div id="place"></div>
+      <div class="loader hide"></div>
+      <div id="distance" class="yelp"></div>
+      <div id="image" class="yelp"></div>
+      <div id="address" class="yelp"></div>
+      <div id="phone" class="yelp"></div>
+      <div id="yelp" class="yelp"></div><br>
+      <hr>
+      <div id="content" class="wiki"></div>
+      <a id="url">go to website</a>
+      <div id="weather"><%- fTemp %></div>
+      <div id="help"></div>
+    </div>
+  </section>
+  <footer>
+  </footer>
+    <!-- jquery, and bootstrap js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <!-- knockoutJS -->
+  <script src="js/knockout.js"></script>
+  <script src="js/mapstyle.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <!-- googleMaps -->
+  <script async src="https://maps.googleapis.com/maps/api/js?callback=googleSuccess&key=AIzaSyAX9FUzV-p5AN3BEaWuLHMWT4JtuNuijY8&libraries=places" onerror="googleError()"></script>
+</body>
+</html>
