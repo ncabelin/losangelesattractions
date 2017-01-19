@@ -354,11 +354,26 @@ function googleSuccess() {
       });
 
       // get distance between your location and attraction
-      if (self.myMarker) {
-        var dist = getDistance(lat, long, self.myMarker.getPosition().lat(), self.myMarker.getPosition().lng());
-        $('#distance').html(Math.round(dist) + ' mi.').css('display', 'inline');
+      console.log(self.myMarker)
+      if (self.myMarker() !== undefined) {
+        if (self.line) { self.line.setMap(null) };
+        var placeLat = self.myMarker.getPosition().lat(),
+            placeLong = self.myMarker.getPosition().lng();
+        var dist = getDistance(lat, long, placeLat, placeLong);
+        $('#distance').html(Math.round(dist) + ' mi.').css('display', 'block');
+        self.line = new google.maps.Polyline({
+          path: [
+              new google.maps.LatLng(lat, long), 
+              new google.maps.LatLng(placeLat, placeLong)
+          ],
+          strokeColor: "#f75c50",
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+          map: map
+        });
       }
 
+      $('#place').html(name).css('display', 'block');
       $('#url').css('display', 'inline').attr('href', url);
       $('#info').css('display', 'inline-block').css('visibility', 'visible');
       $('.weatherInfo').css('display', 'none');

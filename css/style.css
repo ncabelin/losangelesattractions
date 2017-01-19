@@ -31,6 +31,7 @@ header {
 
 .nav {
   margin: 0 auto;
+  padding-bottom: 10px;
 }
 
 select {
@@ -55,9 +56,15 @@ select {
     z-index: 0;
 }
 
+.menu, #place {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
 .menu {
   z-index: 100;
-  font-family: 'Open Sans Condensed', sans-serif;
   position: fixed;
   height: 100%;
   overflow-x: hidden;
